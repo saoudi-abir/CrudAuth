@@ -11,8 +11,10 @@ exports.create = (req, res) => {
     //Create a Tutorial
     const tutorial = new Tutorial({
         title: req.body.title,
-        description: req.body.published? req.body.published: false
+        description: req.body.description,
+        published: req.body.published ? req.body.published : false
     })
+
   //Save Tutorial in the database
   tutorial
   .save(tutorial)
@@ -31,6 +33,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const title  = req.query.title;
   var condition = title? { title: { $regex: new RegExp(title), $otions: "i"}} :{};
+
   Tutorial.find(condition)
   .then(data => {
     res.send(data);
@@ -48,6 +51,7 @@ exports.findAll = (req, res) => {
 // Find a single Tutorial with an id
 exports.findOne = (req, res) => {
     const id  = req.params.id;
+    
     Tutorial.findById(id)
     .then(data => {
         if(!data)
